@@ -25,38 +25,53 @@ function updateStats() {
 
 async function addClick() {
   try {
-    // Disable button temporarily to prevent rapid clicks
     if (button) button.disabled = true;
-    
-    // Increment user clicks
     userClicks++;
     localStorage.setItem("userClicks", userClicks.toString());
-    
-    // Check if we should add a tree (every 50 clicks)
+
     const newTrees = Math.floor(userClicks / 50);
     if (newTrees > userTrees) {
       userTrees = newTrees;
       localStorage.setItem("userTrees", userTrees.toString());
-      
-      // Add tree to global database
-      try {
-        const response = await fetch(`${API_BASE}/add-tree`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log(`Tree planted! Global total: ${data.total_trees}`);
-          // Immediately update global stats after planting a tree
-          await loadGlobalStats();
-        } else {
-          console.error('Failed to add tree to database');
-        }
-      } catch (error) {
-        console.error('Error adding tree to database:', error);
-      }
+
+      // Fire-and-forget API call — don’t await here
+      fetch(`${API_BASE}/add-tree`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Failed to add tree');
+        return response.json();
+      })
+      .then(data => {
+        console.log(`Tree planted! Global total: ${data.total_trees}`);
+        loadGlobalStats();
+      })
+      .catch(error => {
+        console.error('Error adding tree:', error);
+      });
     }
+
+    updateStats();
+
+    if (button) {
+      button.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        button.style.transform = 'scale(1)';
+        button.disabled = false; // Re-enable button right after animation
+      }, 100);
+    }
+
+  } catch (error) {
+    console.error('Error adding click:', error);
+    if (button) {
+      setTimeout(() => {
+        button.disabled = false;
+      }, 100);
+    }
+  }
+}
+
     
     updateStats();
     
