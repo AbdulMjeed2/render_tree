@@ -49,7 +49,6 @@ async function addClick() {
           const data = await response.json();
           console.log(`Tree planted! Global total: ${data.total_trees}`);
           // Immediately update global stats after planting a tree
-          await loadGlobalStats();
         } else {
           console.error('Failed to add tree to database');
         }
