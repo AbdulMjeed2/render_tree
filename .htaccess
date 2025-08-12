@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Rewrite URLs to hide the pages folder
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)\.html$ pages/$1.html [L]
+
+# Handle direct access to pages folder (optional - redirects to clean URLs)
+RewriteCond %{THE_REQUEST} /pages/
+RewriteRule ^pages/([^/]+)\.html$ /$1.html [R=301,L] 

@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "SUPABASE_URL": "https://tgipeboxbnxfnzqdnepv.supabase.co",
+    "SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRnaXBlYm94Ym54Zm56cWRuZXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ5OTUxNTcsImV4cCI6MjA3MDU3MTE1N30.SNKVmQqrOzhVWjCVXISUMGj-bTm4M7p2MSXzB1Y9YGU"
+  }
+}
+
+
+
