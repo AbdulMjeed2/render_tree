@@ -26,7 +26,7 @@ function updateStats() {
 async function addClick() {
   try {
     // Disable button temporarily to prevent rapid clicks
-    if (button) button.disabled = true;
+  //  if (button) button.disabled = true;
     
     // Increment user clicks
     userClicks++;
@@ -124,5 +124,5 @@ window.addEventListener("DOMContentLoaded", () => {
   // Update global stats every 5 seconds to keep it current
   setInterval(() => {
     loadGlobalStats();
-  }, 5000);
+  }, 50);
 });
